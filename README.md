@@ -15,11 +15,16 @@ ruby -v
 ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-darwin16]
 ```
 
+```
+mecab --version
+mecab of 0.996
+```
+
 ### 感情一覧
 
 [こちら](https://en.wikipedia.org/wiki/Contrasting_and_categorization_of_emotions)を参考に感情は定義しています。
 
-`Empty(無)` という感情を追加しています。 
+`Empty(無)` という感情を追加しています。
 
 |Name|Joy|Trust|Fear|Surprise|Sadness|Disgust|Anger|Anticipation|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
@@ -61,22 +66,26 @@ ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-darwin16]
 │   └── jpn-asynset.xml
 ├── word
 │   ├── classifier.rb
+│   ├── kana.rb
 │   ├── pos.rb
 │   └── vocabulary
-│       └── emotion.csv 
+│       └── emotion.csv
 └── wordnet_classify.rb
 ```
 
 * dest: プログラムで生成されるCSVが入る
 * resources: wordnet関係のリソースが入る
 * word: 分類のためのモジュール, データファイル群
+  * classifier.rb : `vocabulary/*.csv` を元に、分類する
+  * kana.rb : 漢字, カタカナをひらがなに変換
+  * pos.rb : wordnetの品詞を読みやすい形に変換
 * wordnet_cllasify.rb : wordnetを分類するプログラム
 
 ### Destに吐き出されるCSVの構成
 
 ##### ok.csv
 
-`word/vocabulary` の各感情ファイルを元に分類された単語が入ります。
+`word/vocabulary` の各感情ファイルを元に分類された語彙が入ります。
 
 header : `emotion, word, pos, cat`
 
@@ -87,13 +96,17 @@ header : `emotion, word, pos, cat`
 
 ##### ng.csv
 
+`word/vocabulary` で分類できなかったカテゴリの語彙が入ります。
+
 header : `cat, word, pos`
 
 * cat: wordnet affect内のcategory
 * word: 単語
 * pos: 品詞 (verb, noun, adverb, adjective, unkown)
 
+### カスタマイズ
 
-### 終わりに
+`word/vocabulary/*.csv`の各ファイルには、ファイル名の感情に合ったカテゴリ群が記述されています。
+本プログラムでは、それを元に分類を行います。
 
-またアップデートしていく予定なのでよろしくお願いします！
+「このカテゴリは、この感情じゃない！」と思ったら、移動してプログラムを走らせてもらえれば再分類が走ります。
