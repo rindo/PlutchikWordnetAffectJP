@@ -38,11 +38,11 @@ end
 # save to csv ---------------------------------------------------------------
 
 CSV.open('dest/ok.csv', 'w') do |csv|
-  csv << ['emotion', 'word', 'pos', 'cat']
+  csv << ['emotion', 'word', 'kana', 'pos', 'cat']
   ok_rows.each{|_| csv << _}
 end
 
 CSV.open('dest/ng.csv', 'w') do |csv|
-  csv << ['cat', 'word', 'pos']
+  csv << ['cat', 'word', 'kana', 'pos']
   ng_rows.each{|_| csv << _}
 end
