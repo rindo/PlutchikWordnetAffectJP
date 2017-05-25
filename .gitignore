@@ -1,1 +1,6 @@
+# output files
 dest/
+
+# bundle
+.bundle/
+/vendor/bundle

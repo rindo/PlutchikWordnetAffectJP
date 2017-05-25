@@ -2,6 +2,7 @@ require 'csv'
 require 'rexml/document'
 require './word/classifier'
 require './word/pos'
+require './word/kana'
 
 # functions -----------------------------------------------------------------
 
@@ -23,12 +24,13 @@ xml.elements.each('syn-list/noun-syn-list/noun-syn') do |noun_syn|
   cat = noun_syn['categ']
   noun_syn.elements.each('jpn-word') do |_|
     word = _['lemma']
+    kana = Word::Kana.kana(word)
     pos  = Word::Pos.convert(_['pos'])
 
     if key = classifier.classify(cat)
-      ok_rows << [key, word, pos, cat]
+      ok_rows << [key, word, kana, pos, cat]
     else
-      ng_rows << [cat, word, pos]
+      ng_rows << [cat, word, kana, pos]
     end
   end
 end
