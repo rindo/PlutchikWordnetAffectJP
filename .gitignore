@@ -1,5 +1,5 @@
 # output files
-dest/
+dest/*.csv
 
 # bundle
 .bundle/
